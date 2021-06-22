@@ -415,24 +415,63 @@ ORM
 
 \subsection{Введение в Django}
 
-Команда для создания виртуального окружения: python3 -m venv my_venv
+Команда для создания виртуального окружения: \verb|python3 -m venv my_venv|
 
-Активация вертуального окружения: sourse my_venv/Scripts/activate (для Mac команда другая  sourse my_venv/bin/activate) . Виртуальное окружение активируется для каждой сессии. Открыв второе окно консоли можно активировать другое окружение.
+Активация вертуального окружения: \verb|sourse my_venv/Scripts/activate| (для Mac команда другая  \lstinline{sourse my_venv/bin/activate}) . Виртуальное окружение активируется для каждой сессии. Открыв второе окно консоли можно активировать другое окружение.
 
-Выйти из вертуального окружение: deactivate.
+Выйти из вертуального окружение: \texttt{deactivate}.
 
-Файл requirements.txt содержит список пакетов и библиотек актуальных для разработки данного проекта. 
+Файл \texttt{requirements.txt} содержит список пакетов и библиотек актуальных для разработки данного проекта. 
 
-Установка пакетов из requirements.txt: pip install -r requirements.txt 
+Установка пакетов из \texttt{requirements.txt}: \lstinline{pip install -r requirements.txt}
 
-Команда создающая структура файлов проекта по умолчанию: django-admin startproject board
+Команда создающая структура файлов проекта по умолчанию: \lstinline{django-admin startproject board}
 
 Веб приложение и приложение Django это не одно и тоже. Django-приложение (application) - это пакет Python который представляет определенный функционал и имеет фтандарстную структуру, которая позволяет подключать его в различные проекты. Обычно в них лежат модели, представления, шаблоны и прочие необходимые для работы приложения файлы. 
 
 Веб-приложение на основе джанго представляет собой совокупность пакетов позволяющих осуществлять клиент-серверное взаимодействие.
 
+\subsubsection{Создание страницы веб-приложения}
 
+Создание веб-приложения:  \lstinline{python manage.py startapp adverticement}.  
 
+В файле urls.py проекта board прописывается "включения" . В импорты прописывается строка "from django.urls import path, include", а в список urlpatterns дописываается элемент path('', include('adverticement.urls')).
+
+В список файлов приложения adverticement добавляем файл urls.py со следующим содержанием: 
+
+\begin{lstlisting}
+from django.urls import path
+from .import views
+
+urlpatterns = [
+path("", views.adverticement_list, name='adverticement_list'),
+path('adverticement/', views.adverticement_detail, name='adverticement_list'),
+]
+\end{lstlisting}
+
+В файле views на каждую страницу сайта(приложения) пишется функция отофражения:
+
+\begin{lstlisting}
+	from django.http import HttpResponse
+	
+	def adverticement_list(request, *args, **kwargs):
+	return HttpResponse('<ul>'
+	'<li>1-е объявление</li>'
+	'<li>2-е объявление</li>'
+	'<li>3-е объявление</li>'
+	'</ul>')
+	
+	def adverticement_detail(request, *args, **kwargs):
+	return HttpResponse('<ul>'
+	'<li>1-е объявление</li>'
+	'<li>2-е объявление</li>'
+	'<li>3-е объявление</li>'
+	'</ul>')
+\end{lstlisting}
+
+Создаем деррикторию с адресом \lstinline{board/adverticement/templstes/adverticement} в которой создаем файл adverticement с html-кодом стартовой страницы.
+
+В файле settings.py в список \lstinline{INSTALLED_APP} дописываем элемент \lstinline{'adverticement'}.
 
 
 
